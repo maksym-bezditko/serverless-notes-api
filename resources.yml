@@ -1,0 +1,45 @@
+# Notes dynamo-db resource
+
+notesTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: notes
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: notesId
+        AttributeType: S
+    KeySchema:
+      - AttributeName: notesId
+        KeyType: HASH
+
+# Notes cognito user pool
+
+cognitoUserPool:
+  Type: AWS::Cognito::UserPool
+  Properties:
+    UserPoolName: MyNotesUserPool
+
+# User pool web client
+
+cognitoUserPoolWebClient:
+  Type: AWS::Cognito::UserPoolClient
+  Properties:
+    UserPoolId: !Ref cognitoUserPool
+    ClientName: MyNotesUserPoolWebClient
+
+# Cognito user pool domain
+
+cognitoUserPoolDomain:
+  Type: AWS::Cognito::UserPoolDomain
+  Properties:
+    UserPoolId: !Ref cognitoUserPool
+    Domain: max-notes-user-pool-demo-domain
+
+# Application parameters
+
+userPoolIdParam:
+  Type: AWS::SSM::Parameter
+  Properties:
+    Name: /notes/dev/userPoolArn
+    Type: String
+    Value: !GetAtt cognitoUserPool.Arn
