@@ -78,8 +78,8 @@ functions:
           path: notes
           authorizer: 
             name: userpool_authorizer
-            arn: ${ssm:/notes/dev/userPoolArn}
-            # arn: !GetAtt cognitoUserPool.Arn - causes an error
+            type: COGNITO_USER_POOLS
+            arn: !GetAtt cognitoUserPool.Arn
 
 plugins:
   - serverless-iam-roles-per-function

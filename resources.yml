@@ -26,6 +26,18 @@ cognitoUserPoolWebClient:
   Properties:
     UserPoolId: !Ref cognitoUserPool
     ClientName: MyNotesUserPoolWebClient
+    AllowedOAuthFlowsUserPoolClient: true
+    AllowedOAuthFlows:
+      - implicit
+    CallbackURLs:
+      - http://localhost:3000
+    AllowedOAuthScopes:
+      - phone
+      - email
+      - openid
+      - profile
+    SupportedIdentityProviders:
+      - COGNITO
 
 # Cognito user pool domain
 
