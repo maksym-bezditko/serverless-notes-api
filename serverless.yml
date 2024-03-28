@@ -4,7 +4,7 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
-  stage: dev
+  stage: ${opt:stage, 'dev'}
   region: eu-north-1
 
 functions:
@@ -76,10 +76,10 @@ functions:
       - http:
           method: get
           path: notes
-          authorizer: 
-            name: userpool_authorizer
-            type: COGNITO_USER_POOLS
-            arn: !GetAtt cognitoUserPool.Arn
+          # authorizer:
+          #   type: COGNITO_USER_POOLS
+          #   arn: !GetAtt cognitoUserPool.Arn
+          #   name: userpool_authorizer
 
 plugins:
   - serverless-iam-roles-per-function
@@ -87,5 +87,4 @@ plugins:
 # CloudFormation part
 
 resources:
-  Resources:
-    ${file(resources.yml)}
+  Resources: ${file(resources.yml)}
