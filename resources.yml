@@ -38,6 +38,11 @@ cognitoUserPoolWebClient:
       - profile
     SupportedIdentityProviders:
       - COGNITO
+    ExplicitAuthFlows:
+      - ALLOW_ADMIN_USER_PASSWORD_AUTH
+      - ALLOW_REFRESH_TOKEN_AUTH
+      - ALLOW_CUSTOM_AUTH
+      - ALLOW_USER_SRP_AUTH
 
 # Cognito user pool domain
 

@@ -7,7 +7,12 @@ const jwtVerifier = CognitoJwtVerifier.create({
 });
 
 const generatePolicy = (principalId, effect, resource) => {
-	var authResponse = {};
+	const tmp = resource.split(':');
+	const apiGatewayArnTmp = tmp[5].split('/');
+	resource = tmp[0] + ":" + tmp[1] + ":" + tmp[2] + ":" + tmp[3] + ":" + tmp[4] + ":" + apiGatewayArnTmp[0] + '/*/*';
+
+
+	const authResponse = {};
 
 	authResponse.principalId = principalId;
 
