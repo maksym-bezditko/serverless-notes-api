@@ -76,6 +76,7 @@ functions:
       - http:
           method: get
           path: notes
+          authorizer: authorizer
           # authorizer:
           #   type: COGNITO_USER_POOLS
           #   arn: !GetAtt cognitoUserPool.Arn
