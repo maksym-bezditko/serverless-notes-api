@@ -7,15 +7,26 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-north-1
 
+package:
+  individually: true
+
+custom:
+  esbuild:
+    bundle: true
+    minify: true
+  prune:
+    automatic: true
+    number: 1
+
 functions:
   authorizer:
     environment:
       COGNITO_USERPOOL_ID: !Ref cognitoUserPool
       COGNITO_USERPOOL_WEB_CLIENT_ID: !Ref cognitoUserPoolWebClient
-    handler: authorizer.handler
+    handler: functions/authorizer.handler
 
   createNote:
-    handler: handler.createNote
+    handler: functions/createNote.handler
     environment:
       NOTES_TABLE_NAME: !Ref notesTable
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
@@ -31,7 +42,7 @@ functions:
           authorizer: authorizer
 
   updateNote:
-    handler: handler.updateNote
+    handler: functions/updateNote.handler
     environment:
       NOTES_TABLE_NAME: !Ref notesTable
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
@@ -47,7 +58,7 @@ functions:
           authorizer: authorizer
 
   deleteNote:
-    handler: handler.deleteNote
+    handler: functions/deleteNote.handler
     environment:
       NOTES_TABLE_NAME: !Ref notesTable
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
@@ -63,7 +74,7 @@ functions:
           authorizer: authorizer
 
   getAllNotes:
-    handler: handler.getAllNotes
+    handler: functions/getAllNotes.handler
     environment:
       NOTES_TABLE_NAME: !Ref notesTable
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
@@ -83,10 +94,9 @@ functions:
           #   name: userpool_authorizer
 
 plugins:
+  - serverless-esbuild
   - serverless-iam-roles-per-function
-  - serverless-plugin-typescript
-
-# CloudFormation part
+  - serverless-prune-plugin
 
 resources:
   Resources: ${file(resources.yml)}
